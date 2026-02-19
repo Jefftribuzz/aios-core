@@ -1,0 +1,36 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "framework": "nextjs",
+  "env": {
+    "NEXT_PUBLIC_API_URL": {
+      "value": "https://api.jejumbiblico.com/api"
+    },
+    "NEXT_PUBLIC_APP_NAME": {
+      "value": "Jejum Bíblico"
+    },
+    "NEXT_PUBLIC_APP_DESCRIPTION": {
+      "value": "Transformação Espiritual Genuína"
+    }
+  },
+  "regions": ["sfo1"],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        }
+      ]
+    }
+  ]
+}

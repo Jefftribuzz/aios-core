@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Consulta Estratégica 1 hora — Avaliação gratuita</title>
+  <meta name="description" content="Receba uma análise rápida e prática do seu caso em 1 hora. Agende agora e obtenha recomendações acionáveis." />
+  <link rel="canonical" href="https://medmentoring.kpages.online/analise1hora" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Consulta Estratégica 1 hora — Avaliação gratuita" />
+  <meta property="og:description" content="Receba recomendações práticas e imediatas em uma sessão de 1 hora. Agende já." />
+  <meta property="og:type" content="website" />
+
+  <!-- Performance: critical CSS inline -->
+  <style>
+    :root{--accent:#0b6efd;--bg:#ffffff;--muted:#6b7280;--text:#0b1a2b}
+    html,body{height:100%}*{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,Arial,sans-serif;color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased}
+    .container{max-width:980px;margin:0 auto;padding:2rem}
+    .hero{display:flex;align-items:center;justify-content:center;padding:3.5rem 1rem;text-align:center}
+    .hero h1{font-size:1.6rem;margin:0 0 .75rem}
+    .subtitle{color:var(--muted);margin:0 0 1rem}
+    .cta{background:var(--accent);color:#fff;padding:.75rem 1.25rem;border-radius:10px;text-decoration:none;display:inline-block}
+    .lead-form{margin-top:2rem}
+    .hint{color:var(--muted);font-size:.95rem}
+    @media(min-width:720px){.hero{padding:5rem 1rem}.hero h1{font-size:2.2rem}}
+  </style>
+
+  <!-- Load main stylesheet asynchronously -->
+  <link rel="preload" href="styles.css" as="style" onload="this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="styles.css"></noscript>
+
+  <!-- Preconnects -->
+  <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
+
+  <!-- Minimal inline critical meta for SEO -->
+</head>
+<body>
+  <header class="hero">
+    <div class="container">
+      <h1>Transforme um problema em plano claro — em 1 hora</h1>
+      <p class="subtitle">Sessão rápida com diagnóstico prático e próximos passos personalizados. Ideal para profissionais ocupados.</p>
+      <a class="cta" href="#form">Agende sua sessão</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="why" class="why">
+      <h2>Por que funciona</h2>
+      <p>Em 60 minutos entregamos insights acionáveis, prioridades e um checklist de próximos passos — sem enrolação.</p>
+    </section>
+
+    <section id="features" class="features">
+      <h2>O que você recebe</h2>
+      <ul>
+        <li><strong>Diagnóstico objetivo:</strong> foco nos principais gaps.</li>
+        <li><strong>Recomendações práticas:</strong> passos claros para implementar.</li>
+        <li><strong>Plano de ação curto:</strong> prioridades para as próximas 2 semanas.</li>
+      </ul>
+    </section>
+
+    <section id="form" class="lead-form">
+      <h2>Reserve sua análise</h2>
+      <form id="signup" novalidate>
+        <label for="name">Nome</label>
+        <input id="name" name="name" type="text" required autocomplete="name" />
+
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" required autocomplete="email" />
+
+        <button type="submit" class="cta">Quero minha análise</button>
+      </form>
+      <p id="form-status" role="status" aria-live="polite" class="hint"></p>
+      <p class="hint">Ao enviar você concorda em receber comunicações. Privacidade respeitada.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">© 2026 MedMentoring — Todos os direitos reservados.</div>
+  </footer>
+
+  <script>
+    // defer lightweight form handler
+    (function(){
+      function onSubmit(e){
+        e.preventDefault();
+        var name = document.getElementById('name').value.trim();
+        var email = document.getElementById('email').value.trim();
+        var status = document.getElementById('form-status');
+        if(!name||!email){ status.textContent='Por favor preencha nome e e-mail.'; return; }
+        status.textContent='Enviando...';
+        // placeholder: post to endpoint or Mailchimp integration
+        // simulate async
+        setTimeout(function(){
+          status.textContent='Obrigado! Verifique seu e-mail para confirmar.';
+          e.target.reset();
+        },800);
+      }
+      document.addEventListener('DOMContentLoaded', function(){
+        document.getElementById('signup').addEventListener('submit', onSubmit);
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,214 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                        SOCIAL MEDIA JEFF                                   ║
+║                     Projeto de Carrosseis Instagram                        ║
+║                                                                            ║
+║  Squad Responsável: Design Social Media Jeff                              ║
+║  Data de Criação: 18 de Fevereiro de 2026                                 ║
+║  Status: 🟢 PRONTO PARA DESIGN                                            ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 📁 ESTRUTURA DO PROJETO                                                     │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+projetos/
+└── social-media-jeff/
+    ├── 📄 INDEX.md                    ← COMEÇA AQUI (Índice Principal)
+    ├── ⚡ QUICK-START.md              ← Guia Rápido (5 min read)
+    │
+    ├── 📚 DOCUMENTAÇÃO PRINCIPAL
+    │   ├── README.md                  ← Visão geral do projeto
+    │   ├── roadmap.md                 ← Cronograma e fases
+    │   ├── checklist.md               ← Rastreamento de progresso
+    │   └── ESTRUTURA.txt              ← Este arquivo
+    │
+    ├── 🎨 DESIGN
+    │   ├── CANVA-INSTRUCTIONS.md      ← PASSO-A-PASSO Canva (OBRIGATÓRIO)
+    │   ├── LINKS-CANVA.md             ← Links dos projetos Canva
+    │   └── ASSETS-VARIACOES.md        ← Copias alternativas + assets
+    │
+    ├── ✍️ COPY
+    │   └── copy/
+    │       └── COPY.md                ← COPY COMPLETA (pronta para usar)
+    │
+    └── 📁 assets/                     ← Recursos (será preenchido)
+
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 🚀 FLUXO DE TRABALHO                                                        │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+ 1. ENTENDER (5 min)
+    └─► Leia: INDEX.md ou QUICK-START.md
+
+ 2. PREPARAR (5 min)
+    └─► Abra: CANVA-INSTRUCTIONS.md + copy/COPY.md lado a lado
+
+ 3. CRIAR (1-2 horas)
+    └─► Siga: Passo-a-passo do CANVA-INSTRUCTIONS.md
+
+ 4. VALIDAR (30 min)
+    └─► Checklist: checklist.md (seção "Design")
+
+ 5. COMPARTILHAR (5 min)
+    └─► Link em: LINKS-CANVA.md
+
+ 6. PUBLICAR (2-3 dias)
+    └─► Acompanhe: roadmap.md
+
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 📊 CARROSSEL #1: MENTORIA VS CURSO ONLINE                                111
+└─────────────────────────────────────────────────────────────────────────────┘
+
+CAPA (Slide 1)
+  ┌─────────────────────────────────┐
+  │                                 │
+  │  Vc acha que um Curso Online    │
+  │  deve ser criado primeiro       │
+  │  que uma Mentoria?              │
+  │                                 │
+  │  (Texto em VERDE)               │
+  │                                 │
+  └─────────────────────────────────┘
+
+CARD 1 (Slide 2) - MÉTRICAS
+  ┌─────────────────────────────────┐
+  │                                 │
+  │  Quantas vendas de 97 reais    │
+  │  para faturar 10 mil reais?    │
+  │                                 │
+  │  103 vendas OU 1 venda?         │
+  │                                 │
+  │  (Números em VERDE)             │
+  │                                 │
+  └─────────────────────────────────┘
+
+CARD 2 (Slide 3) - BENEFÍCIOS
+  ┌─────────────────────────────────┐
+  │                                 │
+  │  Com mentoria você cresce SEM:  │
+  │                                 │
+  │  ✓ Lançamentos                  │
+  │  ✓ Tráfego pago                 │
+  │  ✓ Muitos conteúdos             │
+  │                                 │
+  │  (✓ em VERDE)                   │
+  │                                 │
+  └─────────────────────────────────┘
+
+CARD 3 (Slide 4) - METODOLOGIA
+  ┌─────────────────────────────────┐
+  │                                 │
+  │  Existe metodologia que atrai   │
+  │  clientes de +10 mil reais      │
+  │                                 │
+  │  E ELES AINDA ACHAM BARATO      │
+  │                                 │
+  │  (+10mil, BARATO em VERDE)      │
+  │                                 │
+  └─────────────────────────────────┘
+
+CTA (Slide 5) - AÇÃO
+  ┌─────────────────────────────────┐
+  │                                 │
+  │  Comente MENTORIA               │
+  │                                 │
+  │  Ganhe análise da sua ideia     │
+  │  para clientes High Ticket      │
+  │                                 │
+  │  (MENTORIA em VERDE)            │
+  │                                 │
+  └─────────────────────────────────┘
+
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 🎨 ESPECIFICAÇÕES DE DESIGN                                                 │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+APLICAÇÃO          VALOR
+─────────────────  ────────────────────────────────
+Plataforma         Instagram Carousel (5 slides)
+Dimensão/Slide     1080px width × 1350px height
+Fundo              #000000 (Preto Puro)
+Texto Principal    #FFFFFF (Branco Puro)
+Destaque/Accent    #4CAF50 (Verde Natural)
+Tipografia         Montserrat Bold (títulos)
+                   Montserrat Regular (corpo)
+Tamanho Título     56-64px
+Tamanho Corpo      32-40px
+Espaçamento        100-150px laterais
+                   150-200px topo/rodapé
+Alinhamento        Centro
+Sem Elementos      Ícones simples (quando necessário)
+Contraste          Alto (preto/branco máximo)
+
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ ✅ CHECKLIST RÁPIDO                                                         │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+ANTES DE COMEÇAR
+  ☐ Ler QUICK-START.md
+  ☐ Abrir CANVA-INSTRUCTIONS.md
+  ☐ Ter copy/COPY.md à mão
+
+DURANTE O DESIGN (Canva)
+  ☐ Template: "Instagram Carousel Post"
+  ☐ 5 slides completos
+  ☐ Cores corretas (preto/branco/verde)
+  ☐ Copy sem erros
+  ☐ Palavras-chave em verde
+  ☐ Espaçamento uniforme
+  ☐ Tipografia consistente
+
+VALIDAÇÃO FINAL
+  ☐ Testar em mobile
+  ☐ Contraste verificado
+  ☐ CTA claro no slide 5
+  ☐ Compartilhar link em LINKS-CANVA.md
+  ☐ Marcar checklist.md como "Pronto para Revisão"
+
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 📞 ARQUIVOS CHAVE (O QUE LER)                                               │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+Quero...                              Arquivo
+────────────────────────────────────  ────────────────────────
+Começar AGORA                         → QUICK-START.md
+Entender o projeto                   → README.md
+Ver cronograma                       → roadmap.md
+Criar design no Canva                → CANVA-INSTRUCTIONS.md
+Ver copy completa                    → copy/COPY.md
+Diferentes versões de copy           → ASSETS-VARIACOES.md
+Rastrear progresso                   → checklist.md
+Indice de tudo                       → INDEX.md
+Saber quem é responsável             → squads/social-media-jeff.md
+
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 🎯 PRÓXIMOS CARROSSEIS (Planejados)                                         │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+#2 - Estrutura de 12 Meses de Mentoria
+#3 - Objeções Comuns de Empreendedores
+#4 - Casos de Sucesso de Clientes
+#5 - Estratégia Completa de Monetização
+
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 🚀 PRÓXIMA AÇÃO IMEDIATA                                                    │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+👉 ABRA AGORA: QUICK-START.md ou CANVA-INSTRUCTIONS.md
+
+Tempo estimado para primeira versão: 1-2 horas
+
+Status: PRONTO ✨
+
+
+═══════════════════════════════════════════════════════════════════════════════
+Última atualização: 18 de Fevereiro de 2026
+Squad: Social Media Jeff - Design
+═══════════════════════════════════════════════════════════════════════════════

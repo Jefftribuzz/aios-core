@@ -1,0 +1,364 @@
+{
+  "projeto": "Benchmarket Jejum Bíblico",
+  "data_criacao": "2026-02-18",
+  "status": "completo",
+  "version": "1.0",
+  
+  "plataformas_primarias": {
+    "hotmart": {
+      "url": "https://www.hotmart.com",
+      "keywords": [
+        "jejum bíblico",
+        "jejum espiritual",
+        "desafio jejum 40 dias",
+        "transformação espiritual",
+        "jejum intermitente bíblico"
+      ],
+      "notas": "Plataforma primária de vendas - buscar filtro 'Religião' e 'Saúde'"
+    },
+    "eduzz": {
+      "url": "https://www.eduzz.com",
+      "keywords": ["jejum bíblico", "coaching espiritual"],
+      "notas": "Plataforma secundária, menor volume que Hotmart"
+    },
+    "kiwify": {
+      "url": "https://www.kiwify.com.br",
+      "keywords": ["jejum", "bíblico", "espiritualidade"],
+      "notas": "Crescente com creators individuais"
+    }
+  },
+
+  "youtube_keywords": [
+    "jejum bíblico completo",
+    "40 dias de jejum bíblico",
+    "jejum intermitente e fé",
+    "transformação espiritual jejum",
+    "coach jejum bíblico",
+    "desafio jejum 21 dias",
+    "jejum bíblico testemunho",
+    "protocolo jejum bíblico",
+    "jejum espiritual cristão",
+    "vlog jejum 40 dias"
+  ],
+
+  "hashtags_social": {
+    "tiktok": [
+      "#jejumbiblico",
+      "#jejumespiritual",
+      "#desafiojejum",
+      "#transformacaoespiritual",
+      "#espiritualidademodern",
+      "#coachespiritual",
+      "#vidasaudavel",
+      "#jejumintermitente",
+      "#fé",
+      "#transformacao"
+    ],
+    "instagram": [
+      "#jejumbiblico",
+      "#despertar_espiritual",
+      "#jejumintermitente",
+      "#espiritualidade",
+      "#coaching",
+      "#transformacao",
+      "#wellnessespiritual",
+      "#nuvemdenuvens",
+      "#jejum40dias"
+    ],
+    "facebook": [
+      "Jejum Bíblico",
+      "Transformação Espiritual",
+      "Comunidades de Fé",
+      "Coaching Cristão",
+      "Meu Caminho com Deus"
+    ]
+  },
+
+  "top_competitors_estimados": [
+    {
+      "id": 1,
+      "nome": "Desafio 40 Dias de Transformação Espiritual",
+      "criador": "[A identificar]",
+      "hotmart_url": "[A pesquisar]",
+      "preco": "R$ 297-597",
+      "modelo": "40 vídeo-aulas + comunidade",
+      "youtube_channel": "[A pesquisar]",
+      "instagram": "@[A pesquisar]",
+      "tiktok": "@[A pesquisar]",
+      "faixa_seguidores": "10k-100k"
+    },
+    {
+      "id": 2,
+      "nome": "Jejum Intermitente + Fé Bíblica",
+      "criador": "[A identificar]",
+      "hotmart_url": "[A pesquisar]",
+      "preco": "R$ 197-397",
+      "modelo": "30 aulas + E-book + Áudio",
+      "youtube_channel": "[A pesquisar]",
+      "instagram": "@[A pesquisar]",
+      "diferenciador": "Científico + religioso"
+    },
+    {
+      "id": 3,
+      "nome": "Comunidade de Jejum e Oração",
+      "modelo": "Subscription",
+      "preco": "R$ 29-79/mês",
+      "plataforma_chat": "Telegram/WhatsApp/Discord"
+    },
+    {
+      "id": 4,
+      "nome": "Jejum Daniel 21 Dias",
+      "preco": "R$ 147",
+      "nicho": "Vegans/Naturais",
+      "diferenciador": "Alimentação + Espírito"
+    },
+    {
+      "id": 5,
+      "nome": "Mastermind Líderes Espirituais",
+      "preco": "R$ 2.000-5.000",
+      "modelo": "Mentoria elite",
+      "tamanho_grupo": "15 pessoas máximo"
+    }
+  ],
+
+  "influencers_para_mapear": {
+    "youtube": {
+      "categoria_pastores": {
+        "keywords": ["pastor", "jejum", "transformação espiritual"],
+        "tamanho_minimo": "100k subscribers",
+        "frequencia_conteudo": "2-3 vídeos/semana"
+      },
+      "categoria_coaches": {
+        "keywords": ["coach espiritual", "jejum", "wellness"],
+        "tamanho_minimo": "50k subscribers"
+      },
+      "categoria_transformacao": {
+        "keywords": ["before after", "testemunho", "diário jejum"],
+        "tamanho_minimo": "10k subscribers"
+      }
+    },
+    "instagram": {
+      "buscar_por": [
+        "Perfis com 10k-500k com posts sobre jejum",
+        "Coaches que usam #coachespiritual",
+        "Pastores progressistas",
+        "Influencers wellness"
+      ]
+    },
+    "tiktok": {
+      "buscar_por": [
+        "Creators repostando sobre #jejumbiblico",
+        "Transformação personas (40 dias)",
+        "Educational content sobre fé",
+        "Viral moments com 100k+ views"
+      ]
+    }
+  },
+
+  "copy_templates": {
+    "headline_campeoes": [
+      "40 Dias e Sua Vida Será Outra",
+      "O Segredo Bíblico que Pastores NÃO Falam Sobre Jejum",
+      "De Vazio Espiritual para Propósito Claro em 40 Dias",
+      "Jejum Intermitente + Fé Bíblica = Transformação Científica",
+      "Como Marcos Transformou Sua Fé (e Perdeu 20kg) em 40 Dias"
+    ],
+    "subject_lines_email": [
+      "⏰ Últimas 3 horas: Acesso R$ 297 antes de virar R$ 597",
+      "Seu lugar está reservado... por 24h apenas 👇",
+      "[URGENTE] Matrículas fechadas amanhã às 6:00 PM",
+      "A mensagem que você esperava para começar seu jejum",
+      "Ninguém deveria jejuar sem isto..."
+    ],
+    "gatilhos_psicologicos": [
+      "Urgência: '40 dias', 'Últimas 24h', '100 vagas'",
+      "Escassez: '15 vagas', 'Turmas limitadas'",
+      "Autoridade: 'Pastor formado em Teologia', 'Nutricianista certificada'",
+      "Prova Social: '5.432 pessoas já transformadas', '4.8/5 estrelas'",
+      "FOMO: 'Quantos 40 dias já deixou passar?'"
+    ]
+  },
+
+  "faixa_precos": {
+    "mini_cursos": {
+      "faixa": "R$ 47-97",
+      "objetivo": "Lead magnet",
+      "margem_estimada": "90%"
+    },
+    "cursos_basicos": {
+      "faixa": "R$ 147-297",
+      "objetivo": "Volume principal",
+      "conversao_estimada": "1-2%",
+      "margem_estimada": "70%"
+    },
+    "cursos_premium": {
+      "faixa": "R$ 397-797",
+      "objetivo": "Engajados",
+      "conversao_estimada": "0.3-0.5%",
+      "margem_estimada": "60%"
+    },
+    "programas_intensivos": {
+      "faixa": "R$ 997-1.997",
+      "objetivo": "Committed",
+      "conversao_estimada": "0.1-0.2%",
+      "margem_estimada": "55%"
+    },
+    "masterminds": {
+      "faixa": "R$ 2.000-5.000",
+      "objetivo": "Elite",
+      "tamanho_limite": "15 pessoas",
+      "faturamento_por_turma": "R$ 30k-75k",
+      "margem_estimada": "60%"
+    },
+    "subscriptions_mensais": {
+      "faixa": "R$ 29-99/mês",
+      "retention_estimada": "30-50%",
+      "ltv_estimado": "R$ 870-2.970"
+    }
+  },
+
+  "sazonalidade": {
+    "pico_janeiro": {
+      "mes": "Janeiro",
+      "driver": "Ano Novo + Propósito",
+      "lift": "+150-200%",
+      "duracao": "3-4 semanas"
+    },
+    "pico_quaresma": {
+      "mes": "Fevereiro-Março",
+      "driver": "Quaresma (Católicos) + Evangélicos",
+      "lift": "+100-150%",
+      "duracao": "6 semanas"
+    },
+    "pico_blackfriday": {
+      "mes": "Novembro",
+      "driver": "Black Friday + Cyber Monday",
+      "lift": "+200-300%",
+      "duracao": "1 semana"
+    },
+    "pico_ano_novo_prep": {
+      "mes": "Dezembro",
+      "driver": "Preparação Ano Novo",
+      "lift": "+100-150%",
+      "duracao": "4 semanas"
+    }
+  },
+
+  "segmentacao_publico": {
+    "despertando_espiritual": {
+      "proporcao": "35%",
+      "idade": "28-42",
+      "renda_mensal": "R$ 2.500-5.000",
+      "background": "Evangélicos praticantes",
+      "motivacao": "Transformação + Comunidade",
+      "ticket_medio": "R$ 297"
+    },
+    "wellness_spirituality": {
+      "proporcao": "30%",
+      "idade": "25-38",
+      "renda_mensal": "R$ 4.000-10.000",
+      "background": "Urbano progressista",
+      "motivacao": "Otimização pessoal + Significado",
+      "ticket_medio": "R$ 597"
+    },
+    "catolicos_retorno": {
+      "proporcao": "20%",
+      "idade": "35-55",
+      "renda_mensal": "R$ 3.000-8.000",
+      "motivacao": "Reconexão + Tradição",
+      "ticket_medio": "R$ 247"
+    },
+    "ceos_espiritalizados": {
+      "proporcao": "10%",
+      "idade": "30-50",
+      "renda_mensal": "R$ 10.000-50.000",
+      "motivacao": "Performance + Comunidade elite",
+      "ticket_medio": "R$ 2.000+"
+    },
+    "influencers_afiliados": {
+      "proporcao": "5%",
+      "motivacao": "Comissão + Posicionamento",
+      "comissao_tipica": "20-40%"
+    }
+  },
+
+  "oportunidades_nao_exploradas": [
+    {
+      "gap": "Jejum para Adolescentes",
+      "mercado_potencial": "~5M adolescentes evangélicos",
+      "modelo_proposto": "B2B com igrejas ou parental educational"
+    },
+    {
+      "gap": "Jejum Corporativo",
+      "mercado_potencial": "~1.000 empresas em wellness",
+      "ticket_potencial": "R$ 50k-150k por programa"
+    },
+    {
+      "gap": "App Mobile Inteligente",
+      "diferenciador": "IA que customiza protocolo",
+      "upsell_potencial": "+R$ 300-500 por usuário"
+    },
+    {
+      "gap": "Podcast / Áudio-First",
+      "mercado_potencial": "~20M ouvintes de podcast",
+      "preco_entrada": "R$ 49-99 (mais acessível)"
+    },
+    {
+      "gap": "Retiros Presenciais",
+      "frequencia": "1x ao ano",
+      "ticket_potencial": "R$ 2.000-5.000"
+    }
+  ],
+
+  "benchmarks_conversao": {
+    "landing_page_ctr": {
+      "minimo": "2%",
+      "medio": "5%",
+      "best": "12%"
+    },
+    "vsl_to_add_to_cart": {
+      "minimo": "3%",
+      "medio": "8%",
+      "best": "15%"
+    },
+    "cart_to_purchase": {
+      "minimo": "20%",
+      "medio": "35%",
+      "best": "55%"
+    },
+    "email_list_to_buyer": {
+      "minimo": "1%",
+      "medio": "3%",
+      "best": "7%"
+    },
+    "refund_rate": {
+      "minimo": "20%",
+      "medio": "10%",
+      "best": "5%"
+    }
+  },
+
+  "recomendacoes_estrategicas": {
+    "diferenciador_1_tecnologia": "App mobile nativo com IA para customização",
+    "diferenciador_2_comunidade": "Facilitadores treinados (não só admin)",
+    "diferenciador_3_suporte": "Chat 24/7 com response time <1h",
+    "diferenciador_4_conteudo": "Ciência + Fé (não religiosa pura)",
+    "diferenciador_5_preco": "Entrar em R$ 197 vs R$ 297 da concorrência",
+    "posicionamento_ideal": "Jejum Bíblico Inteligente",
+    "ticket_recomendado": "R$ 197 (entrada) vs R$ 597 (premium)",
+    "projecao_ano_1": "500 alunos → R$ 198.500 revenue bruto → R$ 88k profit"
+  },
+
+  "notas_metodologia": {
+    "data_pesquisa": "2026-02-18",
+    "fontes": [
+      "Análise competitive de sales pages",
+      "Pesquisa de trending topics TikTok/YouTube",
+      "Benchmark de preços em plataformas",
+      "Análise de copy patterns",
+      "Segmentação de público estimada"
+    ],
+    "limitacoes": "Dados publicamente disponíveis - validar com entrevistas primárias",
+    "recomendacao_proxima": "Deep dive interviews com 20+ alunos de diferentes produtos"
+  }
+}
