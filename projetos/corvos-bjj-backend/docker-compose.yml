@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: corvos_bjj_db
+    environment:
+      POSTGRES_USER: ${DB_USER:-corvos}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-corvos_secure_pass_2026}
+      POSTGRES_DB: ${DB_NAME:-corvos_bjj_dev}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-corvos} -d ${DB_NAME:-corvos_bjj_dev}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - corvos-network
+
+networks:
+  corvos-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local

@@ -1,0 +1,1327 @@
+openapi: 3.0.0
+info:
+  title: Corvos BJJ API
+  description: |
+    API para gerenciamento de academia de jiu-jitsu brasileiro.
+    Endpoints para alunos, pagamentos, graduações e autenticação.
+  version: 1.0.0
+  contact:
+    name: Corvos BJJ Team
+    email: dev@corvos.com
+  license:
+    name: MIT
+
+servers:
+  - url: https://api.corvos.com
+    description: Production
+  - url: https://api-staging.corvos.com
+    description: Staging
+  - url: http://localhost:3001
+    description: Development
+
+tags:
+  - name: Auth
+    description: Authentication & Authorization
+  - name: Students
+    description: Student Management (CRUD)
+  - name: Payments
+    description: Payment Registration & Tracking
+  - name: Grades
+    description: Belt Promotions & Grades
+  - name: Reports
+    description: Analytics & Reports
+  - name: Health
+    description: System Health & Status
+
+components:
+  schemas:
+    # ===== User/Auth Schemas =====
+    LoginRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          example: professor@corvos.com
+        password:
+          type: string
+          format: password
+          minLength: 8
+          example: SecurePassword123!
+
+    LoginResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        user:
+          $ref: '#/components/schemas/User'
+        tokens:
+          type: object
+          properties:
+            accessToken:
+              type: string
+              description: JWT token (15 min expiry)
+              example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+            refreshToken:
+              type: string
+              description: Refresh token (7 day expiry, httpOnly cookie)
+              example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 550e8400-e29b-41d4-a716-446655440000
+        email:
+          type: string
+          format: email
+          example: professor@corvos.com
+        name:
+          type: string
+          example: João Silva
+        role:
+          type: string
+          enum: [admin, professor]
+          example: admin
+        is_active:
+          type: boolean
+          example: true
+        created_at:
+          type: string
+          format: date-time
+          example: 2026-01-15T10:30:00Z
+        updated_at:
+          type: string
+          format: date-time
+          example: 2026-01-15T10:30:00Z
+
+    # ===== Student Schemas =====
+    StudentInput:
+      type: object
+      required:
+        - name
+        - start_date
+      properties:
+        name:
+          type: string
+          minLength: 2
+          maxLength: 255
+          example: João Santos
+        email:
+          type: string
+          format: email
+          nullable: true
+          example: joao@example.com
+        phone:
+          type: string
+          nullable: true
+          example: "11999999999"
+        date_of_birth:
+          type: string
+          format: date
+          nullable: true
+          example: "2000-05-15"
+        start_date:
+          type: string
+          format: date
+          example: "2024-01-15"
+        status:
+          type: string
+          enum: [ativo, inativo, parado]
+          default: ativo
+          example: ativo
+        current_belt:
+          type: string
+          enum: [branca, azul, roxa, marrom, preta]
+          default: branca
+          example: branca
+        notes:
+          type: string
+          nullable: true
+          example: "Aluno dedicado, promover em 3 meses"
+
+    Student:
+      allOf:
+        - $ref: '#/components/schemas/StudentInput'
+        - type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+              example: 550e8400-e29b-41d4-a716-446655440001
+            created_by:
+              type: string
+              format: uuid
+              example: 550e8400-e29b-41d4-a716-446655440000
+            created_at:
+              type: string
+              format: date-time
+              example: 2024-01-15T10:00:00Z
+            updated_at:
+              type: string
+              format: date-time
+              example: 2025-03-01T15:30:00Z
+            deleted_at:
+              type: string
+              format: date-time
+              nullable: true
+              example: null
+
+    StudentDetail:
+      allOf:
+        - $ref: '#/components/schemas/Student'
+        - type: object
+          properties:
+            payments:
+              type: array
+              items:
+                $ref: '#/components/schemas/Payment'
+              description: Last 12 months of payments
+            grades:
+              type: array
+              items:
+                $ref: '#/components/schemas/Grade'
+              description: Full promotion history
+
+    # ===== Payment Schemas =====
+    PaymentInput:
+      type: object
+      required:
+        - student_id
+        - amount
+        - payment_date
+        - due_date
+        - payment_method
+        - reference_month
+      properties:
+        student_id:
+          type: string
+          format: uuid
+          example: 550e8400-e29b-41d4-a716-446655440001
+        amount:
+          type: number
+          format: decimal
+          minimum: 0.01
+          example: 250.00
+        payment_date:
+          type: string
+          format: date
+          example: "2026-03-05"
+        due_date:
+          type: string
+          format: date
+          example: "2026-03-01"
+        payment_method:
+          type: string
+          enum: [dinheiro, pix, credito, debito, boleto]
+          example: pix
+        reference_month:
+          type: string
+          pattern: '^\d{4}-\d{2}$'
+          example: "2026-03"
+        status:
+          type: string
+          enum: [pago, pendente, atrasado]
+          default: pago
+          example: pago
+        notes:
+          type: string
+          nullable: true
+          example: "PIX - key: joao@example.com"
+
+    Payment:
+      allOf:
+        - $ref: '#/components/schemas/PaymentInput'
+        - type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+              example: 550e8400-e29b-41d4-a716-446655440002
+            recorded_by:
+              type: string
+              format: uuid
+              example: 550e8400-e29b-41d4-a716-446655440000
+            created_at:
+              type: string
+              format: date-time
+              example: 2026-03-05T10:15:00Z
+            updated_at:
+              type: string
+              format: date-time
+              example: 2026-03-05T10:15:00Z
+
+    # ===== Grades/Promotions Schemas =====
+    GradeInput:
+      type: object
+      required:
+        - student_id
+        - belt_color
+        - promotion_date
+      properties:
+        student_id:
+          type: string
+          format: uuid
+          example: 550e8400-e29b-41d4-a716-446655440001
+        belt_color:
+          type: string
+          enum: [branca, azul, roxa, marrom, preta]
+          example: azul
+        promotion_date:
+          type: string
+          format: date
+          example: "2025-01-15"
+        notes:
+          type: string
+          nullable: true
+          example: "Excelente técnica, progresso consistente"
+
+    Grade:
+      allOf:
+        - $ref: '#/components/schemas/GradeInput'
+        - type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+              example: 550e8400-e29b-41d4-a716-446655440003
+            promoted_by:
+              type: string
+              format: uuid
+              example: 550e8400-e29b-41d4-a716-446655440000
+            created_at:
+              type: string
+              format: date-time
+              example: 2025-01-15T14:00:00Z
+            updated_at:
+              type: string
+              format: date-time
+              example: 2025-01-15T14:00:00Z
+
+    # ===== Paginated Response Schemas =====
+    PaginationMeta:
+      type: object
+      properties:
+        page:
+          type: integer
+          example: 1
+        limit:
+          type: integer
+          example: 20
+        total:
+          type: integer
+          example: 150
+        totalPages:
+          type: integer
+          example: 8
+
+    StudentListResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Student'
+        meta:
+          $ref: '#/components/schemas/PaginationMeta'
+
+    PaymentListResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Payment'
+        meta:
+          $ref: '#/components/schemas/PaginationMeta'
+
+    # ===== Reports Schemas =====
+    MonthlyReportResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: object
+          properties:
+            month:
+              type: string
+              example: "2026-03"
+            total_students:
+              type: integer
+              example: 42
+            total_payments:
+              type: integer
+              example: 38
+            total_revenue:
+              type: number
+              format: decimal
+              example: 9500.00
+            paid_count:
+              type: integer
+              example: 35
+            pending_count:
+              type: integer
+              example: 2
+            overdue_count:
+              type: integer
+              example: 1
+            payment_rate:
+              type: number
+              format: decimal
+              example: 0.92
+              description: Percentage of students who paid
+
+    OverdueReportResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              student_id:
+                type: string
+                format: uuid
+              student_name:
+                type: string
+              email:
+                type: string
+              phone:
+                type: string
+              overdue_since:
+                type: string
+                format: date
+              amount_overdue:
+                type: number
+                format: decimal
+
+    # ===== Error Schemas =====
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              example: INVALID_REQUEST
+            message:
+              type: string
+              example: Email is required
+            details:
+              type: object
+              nullable: true
+
+    UnauthorizedError:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              example: UNAUTHORIZED
+            message:
+              type: string
+              example: Invalid credentials or token expired
+
+    ForbiddenError:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              example: FORBIDDEN
+            message:
+              type: string
+              example: You do not have permission to access this resource
+
+    NotFoundError:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              example: NOT_FOUND
+            message:
+              type: string
+              example: Student with id {id} not found
+
+    # ===== Health Check =====
+    HealthResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        status:
+          type: string
+          enum: [ok, degraded, down]
+          example: ok
+        timestamp:
+          type: string
+          format: date-time
+          example: 2026-03-03T10:30:00Z
+        uptime:
+          type: number
+          description: Uptime in milliseconds
+          example: 3600000
+        database:
+          type: object
+          properties:
+            connected:
+              type: boolean
+              example: true
+            latency_ms:
+              type: number
+              example: 5
+        version:
+          type: string
+          example: 1.0.0
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Access token for API requests (15 min expiry)
+
+paths:
+  # ===== AUTH ENDPOINTS =====
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Login with email and password
+      description: Authenticate user and receive access + refresh tokens
+      operationId: loginUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+                example: refreshToken=abcdef123456; HttpOnly; Secure; SameSite=Strict; Max-Age=604800
+        '401':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /auth/logout:
+    post:
+      tags:
+        - Auth
+      summary: Logout current user
+      description: Invalidate session and tokens
+      operationId: logoutUser
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Logout successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Logged out successfully
+        '401':
+          description: Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+
+  /auth/me:
+    get:
+      tags:
+        - Auth
+      summary: Get current authenticated user
+      operationId: getCurrentUser
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Current user info
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/User'
+        '401':
+          description: Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+
+  /auth/refresh:
+    post:
+      tags:
+        - Auth
+      summary: Refresh access token
+      description: Use refresh token to get new access token (no re-login needed)
+      operationId: refreshToken
+      responses:
+        '200':
+          description: New tokens generated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  tokens:
+                    type: object
+                    properties:
+                      accessToken:
+                        type: string
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+        '401':
+          description: Invalid or expired refresh token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+
+  # ===== STUDENTS ENDPOINTS =====
+  /students:
+    get:
+      tags:
+        - Students
+      summary: List all students
+      description: Retrieve paginated list of active students with optional filters
+      operationId: listStudents
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+          example: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+          example: 20
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [ativo, inativo, parado]
+          description: Filter by student status
+        - name: belt
+          in: query
+          schema:
+            type: string
+            enum: [branca, azul, roxa, marrom, preta]
+          description: Filter by current belt
+        - name: search
+          in: query
+          schema:
+            type: string
+          description: Search by name or email
+        - name: sort_by
+          in: query
+          schema:
+            type: string
+            enum: [name, start_date, current_belt]
+            default: name
+      responses:
+        '200':
+          description: List of students
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentListResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+
+    post:
+      tags:
+        - Students
+      summary: Create new student
+      description: Register a new student to the academy
+      operationId: createStudent
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StudentInput'
+      responses:
+        '201':
+          description: Student created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/Student'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+
+  /students/{id}:
+    get:
+      tags:
+        - Students
+      summary: Get student by ID
+      description: Retrieve full student details including payments and grades history
+      operationId: getStudent
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Student details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/StudentDetail'
+        '404':
+          description: Student not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+
+    put:
+      tags:
+        - Students
+      summary: Update student
+      description: Update student information (name, status, belt, etc)
+      operationId: updateStudent
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StudentInput'
+      responses:
+        '200':
+          description: Student updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/Student'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Student not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+
+    delete:
+      tags:
+        - Students
+      summary: Delete student
+      description: Soft delete student (marks as deleted, preserves data)
+      operationId: deleteStudent
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Student deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Student deleted successfully
+        '404':
+          description: Student not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+
+  # ===== PAYMENTS ENDPOINTS =====
+  /payments:
+    get:
+      tags:
+        - Payments
+      summary: List all payments
+      description: Retrieve paginated list of payments with optional filters
+      operationId: listPayments
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [pago, pendente, atrasado]
+        - name: student_id
+          in: query
+          schema:
+            type: string
+            format: uuid
+          description: Filter by student
+        - name: start_month
+          in: query
+          schema:
+            type: string
+            pattern: '^\d{4}-\d{2}$'
+          example: "2026-01"
+        - name: end_month
+          in: query
+          schema:
+            type: string
+            pattern: '^\d{4}-\d{2}$'
+          example: "2026-03"
+      responses:
+        '200':
+          description: List of payments
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentListResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+
+    post:
+      tags:
+        - Payments
+      summary: Register new payment
+      description: Record a payment received from a student
+      operationId: createPayment
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentInput'
+      responses:
+        '201':
+          description: Payment registered
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/Payment'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+
+  /payments/{id}:
+    get:
+      tags:
+        - Payments
+      summary: Get payment by ID
+      operationId: getPayment
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Payment details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/Payment'
+        '404':
+          description: Payment not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+
+    put:
+      tags:
+        - Payments
+      summary: Update payment
+      description: Update payment details (amount, method, status, etc)
+      operationId: updatePayment
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentInput'
+      responses:
+        '200':
+          description: Payment updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/Payment'
+        '404':
+          description: Payment not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+
+    delete:
+      tags:
+        - Payments
+      summary: Delete payment
+      operationId: deletePayment
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Payment deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+
+  /students/{id}/payments:
+    get:
+      tags:
+        - Payments
+      summary: Get payment history for student
+      description: Retrieve all payments for a specific student
+      operationId: getStudentPayments
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 12
+      responses:
+        '200':
+          description: Payment history
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Payment'
+
+  # ===== GRADES ENDPOINTS =====
+  /grades:
+    post:
+      tags:
+        - Grades
+      summary: Record new promotion
+      description: Register a new belt promotion for a student
+      operationId: createGrade
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GradeInput'
+      responses:
+        '201':
+          description: Promotion recorded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/Grade'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /grades/{id}:
+    put:
+      tags:
+        - Grades
+      summary: Update grade record
+      operationId: updateGrade
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GradeInput'
+      responses:
+        '200':
+          description: Grade updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/Grade'
+
+    delete:
+      tags:
+        - Grades
+      summary: Delete grade record
+      operationId: deleteGrade
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Grade deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+
+  /students/{id}/grades:
+    get:
+      tags:
+        - Grades
+      summary: Get grade history for student
+      description: Retrieve all belt promotions for a student
+      operationId: getStudentGrades
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Grade history
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Grade'
+
+  # ===== REPORTS ENDPOINTS =====
+  /reports/monthly:
+    get:
+      tags:
+        - Reports
+      summary: Get monthly financial report
+      description: Retrieve monthly revenue, payment stats, and metrics
+      operationId: getMonthlyReport
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: month
+          in: query
+          schema:
+            type: string
+            pattern: '^\d{4}-\d{2}$'
+          example: "2026-03"
+          description: Month to report (defaults to current)
+      responses:
+        '200':
+          description: Monthly report
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonthlyReportResponse'
+
+  /reports/overdue:
+    get:
+      tags:
+        - Reports
+      summary: Get overdue payments report
+      description: List students with overdue payments
+      operationId: getOverdueReport
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Overdue payments report
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OverdueReportResponse'
+
+  # ===== HEALTH CHECK =====
+  /health:
+    get:
+      tags:
+        - Health
+      summary: System health check
+      description: Check API and database status
+      operationId: healthCheck
+      responses:
+        '200':
+          description: System is healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+        '503':
+          description: System degraded or down
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+
+# ===== GLOBAL RESPONSE HEADERS =====
+x-response-headers:
+  X-Request-Id:
+    description: Unique request identifier for tracking
+    schema:
+      type: string
+  X-Response-Time:
+    description: API response time in milliseconds
+    schema:
+      type: integer

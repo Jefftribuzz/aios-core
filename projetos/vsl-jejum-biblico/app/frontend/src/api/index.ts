@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { AuthResponse, PlanResponse, Objective, Duration, Plan, Prayer, Meditation, Meal } from '@/types';
+import { AuthResponse, PlanResponse, Objective, Duration, Plan } from '@/types';
 import {
   generateMockDailyTasks,
   getMockUser,

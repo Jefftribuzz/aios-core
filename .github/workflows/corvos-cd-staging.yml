@@ -1,0 +1,55 @@
+name: Corvos CD - Staging
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'projetos/corvos-bjj-backend/**'
+      - 'projetos/corvos-bjj-frontend/**'
+      - '.github/workflows/corvos-cd-staging.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-images:
+    name: Build Docker Images (Staging)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build backend image
+        run: docker build -t corvos-bjj-backend:staging ./projetos/corvos-bjj-backend
+
+      - name: Build frontend image
+        run: docker build -t corvos-bjj-frontend:staging ./projetos/corvos-bjj-frontend
+
+  deploy-staging:
+    name: Trigger Staging Deploy
+    runs-on: ubuntu-latest
+    needs: build-images
+    if: ${{ secrets.STAGING_BACKEND_DEPLOY_HOOK_URL != '' && secrets.STAGING_FRONTEND_DEPLOY_HOOK_URL != '' }}
+    steps:
+      - name: Trigger backend staging deploy
+        run: curl -fsSL -X POST "$STAGING_BACKEND_DEPLOY_HOOK_URL"
+        env:
+          STAGING_BACKEND_DEPLOY_HOOK_URL: ${{ secrets.STAGING_BACKEND_DEPLOY_HOOK_URL }}
+
+      - name: Trigger frontend staging deploy
+        run: curl -fsSL -X POST "$STAGING_FRONTEND_DEPLOY_HOOK_URL"
+        env:
+          STAGING_FRONTEND_DEPLOY_HOOK_URL: ${{ secrets.STAGING_FRONTEND_DEPLOY_HOOK_URL }}
+
+  staging-secrets-missing:
+    name: Staging Secrets Missing
+    runs-on: ubuntu-latest
+    needs: build-images
+    if: ${{ !(secrets.STAGING_BACKEND_DEPLOY_HOOK_URL != '' && secrets.STAGING_FRONTEND_DEPLOY_HOOK_URL != '') }}
+    steps:
+      - name: Inform missing secrets
+        run: |
+          echo "Staging deploy hooks ausentes."
+          echo "Configure STAGING_BACKEND_DEPLOY_HOOK_URL e STAGING_FRONTEND_DEPLOY_HOOK_URL nos Secrets do repositório."

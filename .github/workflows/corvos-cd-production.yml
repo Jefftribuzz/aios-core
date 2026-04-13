@@ -1,0 +1,55 @@
+name: Corvos CD - Production
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Digite DEPLOY_PROD para confirmar o deploy em produção'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  build-images:
+    name: Build Docker Images (Production)
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.confirm == 'DEPLOY_PROD' }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build backend image
+        run: docker build -t corvos-bjj-backend:production ./projetos/corvos-bjj-backend
+
+      - name: Build frontend image
+        run: docker build -t corvos-bjj-frontend:production ./projetos/corvos-bjj-frontend
+
+  deploy-production:
+    name: Trigger Production Deploy
+    runs-on: ubuntu-latest
+    environment: production
+    needs: build-images
+    if: ${{ github.event.inputs.confirm == 'DEPLOY_PROD' && secrets.PROD_BACKEND_DEPLOY_HOOK_URL != '' && secrets.PROD_FRONTEND_DEPLOY_HOOK_URL != '' }}
+    steps:
+      - name: Trigger backend production deploy
+        run: curl -fsSL -X POST "$PROD_BACKEND_DEPLOY_HOOK_URL"
+        env:
+          PROD_BACKEND_DEPLOY_HOOK_URL: ${{ secrets.PROD_BACKEND_DEPLOY_HOOK_URL }}
+
+      - name: Trigger frontend production deploy
+        run: curl -fsSL -X POST "$PROD_FRONTEND_DEPLOY_HOOK_URL"
+        env:
+          PROD_FRONTEND_DEPLOY_HOOK_URL: ${{ secrets.PROD_FRONTEND_DEPLOY_HOOK_URL }}
+
+  production-secrets-missing:
+    name: Production Secrets Missing
+    runs-on: ubuntu-latest
+    needs: build-images
+    if: ${{ github.event.inputs.confirm == 'DEPLOY_PROD' && !(secrets.PROD_BACKEND_DEPLOY_HOOK_URL != '' && secrets.PROD_FRONTEND_DEPLOY_HOOK_URL != '') }}
+    steps:
+      - name: Inform missing secrets
+        run: |
+          echo "Production deploy hooks ausentes."
+          echo "Configure PROD_BACKEND_DEPLOY_HOOK_URL e PROD_FRONTEND_DEPLOY_HOOK_URL nos Secrets do repositório."

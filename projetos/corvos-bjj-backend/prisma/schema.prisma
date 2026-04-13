@@ -1,0 +1,114 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model for authentication
+model User {
+  id        String    @id @default(cuid())
+  email     String    @unique
+  name      String
+  passwordHash String
+  role      String    @default("professor") // "admin", "professor"
+  isActive  Boolean   @default(true)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  // Relations
+  createdStudents Student[]
+  createdPayments Payment[]
+  createdGrades   Grade[]
+
+  @@map("users")
+}
+
+// Student model
+model Student {
+  id            String    @id @default(cuid())
+  name          String
+  email         String
+  phone         String?
+  dateOfBirth   DateTime?
+  startDate     DateTime  @default(now())
+  status        String    @default("ativo") // "ativo", "inativo", "parado"
+  createdById   String
+  createdBy     User      @relation(fields: [createdById], references: [id])
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  deletedAt     DateTime? // Soft delete
+
+  // Relations
+  payments      Payment[]
+  grades        Grade[]
+
+  @@index([createdById])
+  @@index([status])
+  @@index([startDate])
+  @@map("students")
+}
+
+// Payment model
+model Payment {
+  id              String    @id @default(cuid())
+  studentId       String
+  student         Student   @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  amount          Float
+  paymentDate     DateTime?
+  dueDate         DateTime
+  status          String    @default("pendente") // "pago", "pendente", "atrasado"
+  paymentMethod   String?   // "dinheiro", "pix", "credito", "debito", "boleto"
+  referenceMonth  String?   // "YYYY-MM" format
+  notes           String?
+  recordedById    String
+  recordedBy      User      @relation(fields: [recordedById], references: [id])
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@unique([studentId, referenceMonth])
+  @@index([studentId])
+  @@index([status])
+  @@index([dueDate])
+  @@index([recordedById])
+  @@map("payments")
+}
+
+// Grade model (belt progression)
+model Grade {
+  id              String    @id @default(cuid())
+  studentId       String
+  student         Student   @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  beltColor       String    // "branca", "azul", "roxa", "marrom", "preta"
+  promotionDate   DateTime
+  notes           String?
+  promotedById    String
+  promotedBy      User      @relation(fields: [promotedById], references: [id])
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([studentId])
+  @@index([promotionDate])
+  @@index([promotedById])
+  @@map("grades")
+}
+
+// Session model (optional, for logout tracking)
+model Session {
+  id              String    @id @default(cuid())
+  userId          String?
+  refreshToken    String
+  expiresAt       DateTime
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("sessions")
+}

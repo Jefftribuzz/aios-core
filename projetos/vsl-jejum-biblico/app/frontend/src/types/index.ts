@@ -36,7 +36,7 @@ export interface Meditation {
   id: string;
   title: string;
   description: string;
-  audio_url?: string;
+  audio_url?: string | null;
   duration_minutes: number;
   type: 'guided' | 'music' | 'silence';
 }

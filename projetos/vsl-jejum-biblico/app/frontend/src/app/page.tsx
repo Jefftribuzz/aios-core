@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import Link from 'next/link';
 import { Button, Input, ToastContainer, useToast } from '@/components';
 import { Layout } from '@/components/Layout';
 import { authAPI } from '@/api';

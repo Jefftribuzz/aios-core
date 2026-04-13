@@ -8,7 +8,7 @@ interface HeaderProps {
   showBackButton?: boolean;
 }
 
-export const Header: React.FC<HeaderProps> = ({ title, showBackButton = false }) => {
+export const Header: React.FC<HeaderProps> = ({ showBackButton = false }) => {
   const { logout } = useAuthStore();
   const user = useAuthStore((state) => state.user);
 

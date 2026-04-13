@@ -2,8 +2,7 @@ import {
   Prayer, 
   Meditation, 
   Meal, 
-  DailyTask, 
-  Plan,
+  DailyTask,
   Objective,
   Duration
 } from '@/types';
@@ -169,3 +168,7 @@ export function setMockUserPlan(plan: any) {
   if (typeof window === 'undefined') return;
   localStorage.setItem(mockPlanStorageKey, JSON.stringify(plan));
 }
+
+// Export mock data for api client
+export { mockPrayers, mockMeditations, mockMeals };
+

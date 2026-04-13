@@ -1,0 +1,53 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: corvos_bjj_db_fullstack
+    environment:
+      POSTGRES_USER: corvos
+      POSTGRES_PASSWORD: corvos_secure_pass_2026
+      POSTGRES_DB: corvos_bjj_dev
+    ports:
+      - '5432:5432'
+    volumes:
+      - corvos_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U corvos -d corvos_bjj_dev']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: corvos_bjj_backend
+    environment:
+      PORT: 3000
+      NODE_ENV: production
+      DATABASE_URL: postgresql://corvos:corvos_secure_pass_2026@db:5432/corvos_bjj_dev
+      JWT_SECRET: change-me-in-prod
+      JWT_REFRESH_SECRET: change-me-refresh-in-prod
+      JWT_EXPIRES_IN: 15m
+      JWT_REFRESH_EXPIRES_IN: 7d
+    ports:
+      - '3000:3000'
+    command: sh -c "npm run migrate:deploy && npm run seed && npm run start"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ../corvos-bjj-frontend
+      dockerfile: Dockerfile
+    container_name: corvos_bjj_frontend
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:3000
+      NODE_ENV: production
+    ports:
+      - '3001:3000'
+    depends_on:
+      - backend
+
+volumes:
+  corvos_postgres_data:
